@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block "conteudo" %}
+
+<h1>Criar Pedido</h1>
+
+<br>
+<h5>Selecione o cliente que deseja criar o pedido</h5>
+<br>
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Apelido/Referência</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in clientes %}
+            <tr>
+                <td><a class="mylink" href="{{ c.id }}">{{ c.nome }}</a></td>
+                <td>{{ c.apelido }}</td>
+                <td>{{ c.telefone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+
+{% endblock %}

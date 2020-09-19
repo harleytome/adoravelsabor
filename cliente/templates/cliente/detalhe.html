@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block "conteudo" %}
+
+    <h2>Informações sobre o cliente</h2><br>
+
+    <form method="POST" action="">
+        {% csrf_token %}
+
+        {{ form|crispy }}
+    
+        <div>
+            <button name="botao" type="submit" value="_salvar_" class="btn btn-success">Salvar</button>
+            <button name="botao" type="submit" value="_cancelar_" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </form>
+
+{% endblock %}

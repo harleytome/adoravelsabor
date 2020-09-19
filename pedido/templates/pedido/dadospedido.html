@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block "conteudo" %}
+{% load omfilters %}
+<h1>Detalhes do Pedido</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <h5>Nome do Cliente</h5>
+            </div>
+            <div class="row">
+                {{cliente.nome}}
+            </div>
+            <div class="row">
+                <strong>{{cliente.apelido}}</strong>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <h5>Endereço</h5>
+            </div>
+            <div class="row">
+                {{cliente.endereco}} , {{cliente.numero}}
+            </div>
+            <div class="row">
+                {{cliente.complemento}}
+            </div>
+            <div class="row">
+                {{cliente.bairro}}
+            </div>
+            <div class="row">
+                {{cliente.cidade}}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="row">
+                <h5>Telefone</h5>
+            </div>
+            <div class="row">
+                {{cliente.telefone}}
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="row">
+                <h5>Data para Entrega*</h5>
+            </div>
+            <div class="row">
+                <input class="form-control" type="date" id="data_entrega" name="data_entrega">
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <h5>Formas de Pagamento*</h5>
+            </div>
+            <div class="row">
+                <select class="form-control" id="formas_pagamento" name="formas_pagamento">
+                    <option></option>
+                    <option>Dinheiro</option>
+                    <option>Transferência</option>
+                    <option>PicPay</option>
+                </select>
+            </div>
+        </div>
+        
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <h5>Total des Pedido</h5>
+            </div>
+        </div>
+    </div>
+    {% if total_pedido == 0 %}
+        <h6 style="color: blue;">Nenhum item adicionado</h6>
+    {% else %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <h5 style="color:darkslateblue">{{total_pedido|ajusta_centavos}}</h5>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+</div>
+<hr>
+<h1>Itens</h1>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Produto</th>
+                <th>Observação</th>
+                <th style="text-align: right;">Qtd.</th>
+                <th style="text-align: right;">Preço</th>
+                <th style="text-align: right;">Valor</th>
+                <th>?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for linha in carrinho.values %}
+            {% if linha.produto %}
+            <tr>
+                <td>{{linha.produto}}</td>
+                <td>{{linha.desc_produto}}</td>
+                <td>{{linha.observacao}}</td>
+                <td style="text-align: right;">{{linha.quantidade}}</td>
+                <td style="text-align: right;">{{linha.preco|ajusta_centavos}}</td>
+                <td style="text-align: right;">{{linha.total_item|ajusta_centavos}}</td>
+                <td>
+                    <a href="del/{{linha.produto}}"><button type="button" class="btn btn-danger btn-circle btn-sm"><i
+                        class="fa fa-minus"></i></button></a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+
+<div class="float-left">
+    <button type="button" class="btn btn-success btn-circle btn-sm" data-toggle="modal" data-target="#myModal"><i
+            class="fa fa-plus"></i></button>
+</div>
+<br>
+<div class="float-right">
+    <button name="botao" class="btn btn-success" data-dismiss="modal">Finalizar Pedido</button>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Selecione o Produto</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'pedido:adicionaitem' %}" method="POST">
+                    {% csrf_token %}
+                    <input name="id_cliente" value="{{cliente.id}}" hidden>
+                    <input id="desc_produto" name="desc_produto" hidden>
+
+                    <div class="row col-md-10">
+                        <select id="produto_selecionado" name="produto_selecionado" class="form-control">
+                            <option p_preco="0" value=""></option>
+                            {% for p in produtos %}
+                            <option p_preco="{{p.preco}}" p_desc="{{p.nome_produto}}" value="{{p.id}}">{{p.nome_produto}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <br>
+                    <div class="col-md-2">
+                        <label>Quantidade</label>
+                        <input type="text" class="form-control" style="text-align: right;" value="1" name="quantidade">
+
+                    </div>
+                    <br>
+                    <div class="col-md-10">
+                        <label>Preço Venda</label>
+                        <input id="preco_selecionado" name="preco_selecionado" onkeypress="mascara(this,mreais)" size="7"
+                            class="form-control col-sm-2 texto-direita">
+                    </div>
+                    <br>
+                    <div class="col-md-10">
+                        <label>Observações</label>
+                        <textarea id="observacao" name="observacao" class="form-control" cols="30" rows="5"></textarea>
+                    </div>
+
+            </div>
+            <div class="modal-footer">
+                <button name="botao" type="submit" value="_salvar_" class="btn btn-success">Salvar</button>
+                <button name="botao" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

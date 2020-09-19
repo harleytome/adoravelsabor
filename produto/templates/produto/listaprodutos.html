@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block "conteudo" %}
+{% load omfilters %}
+<h1>Produtos</h1>
+
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Descrição</th>
+                <th style="text-align: right;">Custo</th>
+                <th style="text-align: right;">Preço Venda</th>
+                <th style="text-align: right;">Lucro</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in produtos %}
+            <tr>
+                <td><a class="mylink" href="{{ p.id }}">{{ p.nome_produto }}</a></td>
+                <td>{{ p.descricao_produto }}</td>
+                <td style="text-align: right;">{{ p.custo|formata_preco }}</td>
+                <td style="text-align: right;">{{ p.preco|formata_preco }}</td>
+                <td style="text-align: right;">{{ p.lucro|formata_preco }}</td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<br>
+<div class="float-right">
+    <a href="{% url 'produto:novoproduto' %}"><button type="button" class="btn btn-success btn-circle btn-lg"><i class="fa fa-plus"></i></button></a>
+</div>
+
+{% endblock %}

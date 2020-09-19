@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block "conteudo" %}
+
+<h1>Clientes</h1>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Apelido/Referência</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in clientes %}
+            <tr>
+                <td><a class="mylink" href="{{ c.id }}">{{ c.nome }}</a></td>
+                <td>{{ c.apelido }}</td>
+                <td>{{ c.telefone }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<br>
+<div class="float-right">
+    <a href="{% url 'cliente:novocliente' %}"><button type="button" class="btn btn-success btn-circle btn-lg"><i class="fa fa-plus"></i></button></a>
+</div>
+
+{% endblock %}

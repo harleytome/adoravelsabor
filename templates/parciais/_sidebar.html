@@ -1,0 +1,50 @@
+{% load static %}
+<nav id="sidebar">
+    <div class="p-4 pt-5">
+        <a href="#"><img class="mb-5 logo" src="{% static 'imgs/logo.png' %}" width="50" height="68"></a>
+
+        <ul class="list-unstyled components mb-5">
+            <li>
+                <a href="{% url 'inicio:index' %}">Principal</a>
+            </li>
+            <li>
+                <a href="{% url 'cliente:listaclientes' %}">Clientes</a>
+            </li>
+            <li>
+                <a href="{% url 'produto:listaprodutos' %}">Produtos</a>
+            </li>
+
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pedidos</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <a href="#">Listar</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'pedido:novopedido' %}">Criar</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"
+                    class="dropdown-toggle">Relatórios</a>
+                <ul class="collapse list-unstyled" id="homeSubmenu">
+                    <li>
+                        <a href="#">Rel 1</a>
+                    </li>
+                    <li>
+                        <a href="#">Rel 2</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">Logout</a>
+            </li>
+        </ul>
+
+        <div class="footer">
+            <p>Por Harley Tomé</p>
+        </div>
+
+    </div>
+</nav>

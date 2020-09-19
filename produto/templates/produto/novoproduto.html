@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block "conteudo" %}
+
+<h1>Cadastro de Produtos</h1>
+<br>
+<form action="{% url 'produto:salvarproduto' %}" method="POST">
+
+    {% csrf_token %}
+    <div class="container">
+        <div class="form-group">
+            <label>Nome do Produto *</label>
+            <input type="text" class="form-control" name="nome_produto" value="{{request.POST.nome_produto}}">
+        </div>
+        <div class="form-group">
+            <label>Descrição *</label>
+            <textarea class="form-control" name="descricao_produto">{{request.POST.descricao_produto}}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Custo *</label>
+            <input onkeypress="mascara(this,mreais)" size="7" class="form-control col-sm-2 texto-direita" name="custo" value="{{request.POST.custo}}">
+        </div>
+        <div class="form-group">
+            <label>Preço Venda *</label>
+            <input onkeypress="mascara(this,mreais)" size="7" class="form-control col-sm-2 texto-direita" name="preco" value="{{request.POST.preco}}">
+        </div>
+    
+        <div>
+            <button name="botao" type="submit" value="_salvar_" class="btn btn-success">Salvar</button>
+            <button name="botao" type="submit" value="_cancelar_" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

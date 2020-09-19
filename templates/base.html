@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+{% include "parciais/_head.html" %}
+
+<body>
+
+    <div class="wrapper d-flex align-items-stretch">
+
+        {% include "parciais/_sidebar.html" %}
+
+        <!-- Page Content  -->
+        <div id="content" class="p-4 p-md-5">
+
+            {% include "parciais/_navtop.html" %}
+            
+            {% include 'parciais/_messages.html' %}
+            
+            {% block "conteudo" %}{% endblock %}
+            
+        </div>
+    </div>
+
+</body>
+{% include 'parciais/_scripts.html' %}
+
+</html>
