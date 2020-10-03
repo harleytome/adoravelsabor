@@ -9,4 +9,5 @@ urlpatterns = [
     path('novopedido/<int:pk>',views.PedidoSelCliente.as_view(),name='pedidoselcliente'),
     path('novopedido/adicionar/',views.AdicionaItemPedido,name='adicionaitem'),
     path('novopedido/del/<int:pk>',views.RemoveItemPedido,name='removeitem'),
+    path('novopedido/finalizarpedido/<int:pk>',views.FinalizarPedido,name='finalizarpedido'),
 ]

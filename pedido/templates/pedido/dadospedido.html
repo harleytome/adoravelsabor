@@ -44,45 +44,48 @@
     </div>
 </div>
 <hr>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-2">
-            <div class="row">
-                <h5>Data para Entrega*</h5>
-            </div>
-            <div class="row">
-                <input class="form-control" type="date" id="data_entrega" name="data_entrega">
-            </div>
-        </div>
-        <div class="col-md-2">
+<form method="POST" action="finalizarpedido/{{cliente.id}}">
+    {% csrf_token %}
 
-        </div>
-        <div class="col-md-3">
-            <div class="row">
-                <h5>Formas de Pagamento*</h5>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="row">
+                    <h5>Data para Entrega*</h5>
+                </div>
+                <div class="row">
+                    <input class="form-control" type="date" id="data_entrega" name="data_entrega">
+                </div>
             </div>
-            <div class="row">
-                <select class="form-control" id="formas_pagamento" name="formas_pagamento">
-                    <option></option>
-                    <option>Dinheiro</option>
-                    <option>Transferência</option>
-                    <option>PicPay</option>
-                </select>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-3">
+                <div class="row">
+                    <h5>Formas de Pagamento*</h5>
+                </div>
+                <div class="row">
+                    <select class="form-control" id="formas_pagamento" name="formas_pagamento">
+                        <option></option>
+                        <option>Dinheiro</option>
+                        <option>Transferência</option>
+                        <option>PicPay</option>
+                    </select>
+                </div>
             </div>
         </div>
-        
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="row">
-                <h5>Total des Pedido</h5>
+
+        <br>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <h5>Total des Pedido</h5>
+                </div>
             </div>
         </div>
-    </div>
-    {% if total_pedido == 0 %}
+        {% if total_pedido == 0 %}
         <h6 style="color: blue;">Nenhum item adicionado</h6>
-    {% else %}
+        {% else %}
         <div class="row">
             <div class="col-md-6">
                 <div class="row">
@@ -91,55 +94,58 @@
             </div>
         </div>
 
-    {% endif %}
-</div>
-<hr>
-<h1>Itens</h1>
+        {% endif %}
+    </div>
+    <hr>
+    <h1>Itens</h1>
 
-<div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Produto</th>
-                <th>Observação</th>
-                <th style="text-align: right;">Qtd.</th>
-                <th style="text-align: right;">Preço</th>
-                <th style="text-align: right;">Valor</th>
-                <th>?</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for linha in carrinho.values %}
-            {% if linha.produto %}
-            <tr>
-                <td>{{linha.produto}}</td>
-                <td>{{linha.desc_produto}}</td>
-                <td>{{linha.observacao}}</td>
-                <td style="text-align: right;">{{linha.quantidade}}</td>
-                <td style="text-align: right;">{{linha.preco|ajusta_centavos}}</td>
-                <td style="text-align: right;">{{linha.total_item|ajusta_centavos}}</td>
-                <td>
-                    <a href="del/{{linha.produto}}"><button type="button" class="btn btn-danger btn-circle btn-sm"><i
-                        class="fa fa-minus"></i></button></a>
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Produto</th>
+                    <th>Observação</th>
+                    <th style="text-align: right;">Qtd.</th>
+                    <th style="text-align: right;">Preço</th>
+                    <th style="text-align: right;">Valor</th>
+                    <th>?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for linha in carrinho.values %}
+                {% if linha.produto %}
+                <tr>
+                    <td>{{linha.produto}}</td>
+                    <td>{{linha.desc_produto}}</td>
+                    <td>{{linha.observacao}}</td>
+                    <td style="text-align: right;">{{linha.quantidade}}</td>
+                    <td style="text-align: right;">{{linha.preco|ajusta_centavos}}</td>
+                    <td style="text-align: right;">{{linha.total_item|ajusta_centavos}}</td>
+                    <td>
+                        <a href="del/{{linha.produto}}"><button type="button"
+                                class="btn btn-danger btn-circle btn-sm"><i class="fa fa-minus"></i></button></a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
 
-        </tbody>
-    </table>
-</div>
+            </tbody>
+        </table>
+    </div>
 
 
-<div class="float-left">
-    <button type="button" class="btn btn-success btn-circle btn-sm" data-toggle="modal" data-target="#myModal"><i
-            class="fa fa-plus"></i></button>
-</div>
-<br>
-<div class="float-right">
-    <button name="botao" class="btn btn-success" data-dismiss="modal">Finalizar Pedido</button>
-</div>
+    <div class="float-left">
+        <button type="button" class="btn btn-success btn-circle btn-sm" data-toggle="modal" data-target="#myModal"><i
+                class="fa fa-plus"></i></button>
+    </div>
+    <br>
+    <div class="float-right">
+        <button type="submit" name="botao" class="btn btn-success" data-dismiss="modal">Finalizar Pedido</button>
+    </div>
+</form>
+
+
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -153,6 +159,7 @@
             <div class="modal-body">
                 <form action="{% url 'pedido:adicionaitem' %}" method="POST">
                     {% csrf_token %}
+
                     <input name="id_cliente" value="{{cliente.id}}" hidden>
                     <input id="desc_produto" name="desc_produto" hidden>
 
@@ -160,7 +167,8 @@
                         <select id="produto_selecionado" name="produto_selecionado" class="form-control">
                             <option p_preco="0" value=""></option>
                             {% for p in produtos %}
-                            <option p_preco="{{p.preco}}" p_desc="{{p.nome_produto}}" value="{{p.id}}">{{p.nome_produto}}</option>
+                            <option p_preco="{{p.preco}}" p_desc="{{p.nome_produto}}" value="{{p.id}}">
+                                {{p.nome_produto}}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -173,8 +181,8 @@
                     <br>
                     <div class="col-md-10">
                         <label>Preço Venda</label>
-                        <input id="preco_selecionado" name="preco_selecionado" onkeypress="mascara(this,mreais)" size="7"
-                            class="form-control col-sm-2 texto-direita">
+                        <input id="preco_selecionado" name="preco_selecionado" onkeypress="mascara(this,mreais)"
+                            size="7" class="form-control col-sm-2 texto-direita">
                     </div>
                     <br>
                     <div class="col-md-10">
